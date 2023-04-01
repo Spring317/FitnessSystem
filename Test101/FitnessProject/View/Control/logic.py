@@ -1,9 +1,12 @@
 import sqlite3
 from .Model.calculator import Calculator
 from tkinter import messagebox
-import threading
+import tkinter as tk 
+import subprocess
 
 class Logic:
+    stats_position = []
+    stat_admin_position = []
     def check_sign_in(username, password):
         conn1 = sqlite3.connect(r'/home/spring/Test101/FitnessProject/View/Control/Model/Database/Fitness.db')
         cursor1 = conn1.cursor()
@@ -12,19 +15,18 @@ class Logic:
         for result in results:
             if username == result[0] and password == result[1]:
                 return True
-            
         return False
+
     def check_admin(username, password):
         connect = sqlite3.connect(r'/home/spring/Test101/FitnessProject/View/Control/Model/Database/Fitness.db')
         cursor = connect.cursor()
         cursor.execute("SELECT username, password FROM user")
         results = cursor.fetchall()
         for result in results:
-            if username == "admin" and password == result[1] :
+            if username == "admin" and password == result[1]:
                 return True
-            
         return False
-    
+
     def check_health_info(username):
         conn2 = sqlite3.connect(r'/home/spring/Test101/FitnessProject/View/Control/Model/Database/Fitness.db')
         cursor2 = conn2.cursor()
@@ -35,7 +37,6 @@ class Logic:
             if username == result[0]:
                 return True
         return False
-    
 
     def calculate_stats(user_name):
         conn3 = sqlite3.connect(r'/home/spring/Test101/FitnessProject/View/Control/Model/Database/Fitness.db')
@@ -58,7 +59,7 @@ class Logic:
 
         conn3.close()
 
-    def check_signup(username,name, password, cf_password):
+    def check_signup(username, name,phone_number, password, cf_password):
         conn2 = sqlite3.connect(r'/home/spring/Test101/FitnessProject/View/Control/Model/Database/Fitness.db')
         cursor2 = conn2.cursor()
         cursor2.execute("SELECT username FROM user")
@@ -73,20 +74,20 @@ class Logic:
             else:
                 found = False
         if len(password) < 6:
-            messagebox.showerror(title="Error", message="Password must have at least 6 characters!")
+            messagebox.showerror(title = "Error", message = "Password must has at least 6 characters!")
         else:
             if password == cf_password:
                 if not found:
-                    cursor2.execute("INSERT INTO user (username, name, password) VALUES (?, ?, ?)",
-                                    (username, name, password))
+                    cursor2.execute("INSERT INTO user (username, name, password, phone_number) VALUES (?, ?, ?, ?)",
+                                    (username, name, password, phone_number))
                     messagebox.showinfo("Success", "New account created successfully")
                 else:
-                    messagebox.showerror(title="Error", message="Username existed!")
+                    messagebox.showerror(title="Error", message = "Username existed!")
             else:
-                messagebox.showerror(title="Error", message="password not match! ")
+                messagebox.showerror(title="Error", message="Password does not match!")
 
-            conn2.commit()
-            conn2.close()
+        conn2.commit()
+        conn2.close()
 
     def add_health_info(username, gender, age, height, weight):
         conn3 = sqlite3.connect(r'/home/spring/Test101/FitnessProject/View/Control/Model/Database/Fitness.db')
@@ -96,7 +97,7 @@ class Logic:
         found = False
         for result in results:
             if username == result[0]:
-
+                
                 found = True
                 break
             else:
@@ -119,20 +120,57 @@ class Logic:
         Logic.calculate_stats(username)
 
         conn3.close()
+
+    def display_health(user_name, posx, posy):
+        conn4 = sqlite3.connect(r'/home/spring/Test101/FitnessProject/View/Control/Model/Database/Fitness.db')
+        cursor4 = conn4.cursor()
+        cursor4.execute("SELECT username, height, weight, bmi, bmr, bodyfat, lbm FROM health")
+        results = cursor4.fetchall()
+        for result in results:
+            if result[0] == user_name:
+                height = str(result[1])
+                weight = str(result[2])
+                bmi = str(result[3])
+                bmr = str(result[4])
+                bodyfat = str(result[5])
+                lbm = str(result[6])
+                # return [height, weight, bmi, bmr, bodyfat, lbm]
+
+        health_info = [height + "m", weight + "kg", bmi + "kg/m2", bmr, bodyfat + "%", lbm + "lbf"]
+        idx = 0
+         
+        for y in posy:
+            for x in posx:
+                info = tk.Label(bd=0, highlightthickness=0, borderwidth=0, font=('iCiel Gotham Medium', 15), text=health_info[idx], fg='#F5DF4D',
+                                bg='#212121')
+                info.place(x=x, y=y)
+                Logic.stats_position.append(info)
+                idx += 1
+
+
+        idx = 0
+        
     
-    def multi_thread():
-        t1 = threading.Thread(target= Logic.check_sign_in)
-        t2 = threading.Thread(target= Logic.check_admin)
+    def delete_leftover(self):
+        for position in Logic.stats_position:
+            position.destroy()
+
+    def delete_admin_leftover(self):
+        for position in Logic.stat_admin_position:
+            position.destroy()    
+        
+    def quit_program(frame):
+            frame.quit()
+    
+    def open_db():
+        db_browser_path = r'/usr/bin/sqlitebrowser /usr/share/man/man1/sqlitebrowser.1.gz'
+        db_file_path = r'/home/spring/Test101/FitnessProject/View/Control/Model/Database/Fitness.db'
 
 
-        t1.start()
-        t2.start()
 
-        t1.join()
-        t2.join()
+        
+        
 
-
+    
 
 
-       
-            

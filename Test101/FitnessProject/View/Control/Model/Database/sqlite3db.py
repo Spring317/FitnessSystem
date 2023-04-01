@@ -15,6 +15,7 @@ cursor.execute("INSERT INTO user (username, name, password, phone_number) VALUES
 cursor.execute("INSERT INTO user (username, name, password, phone_number) VALUES ('fuyohaiyaaa', 'Phung Dam Quan', '64X5kIVoN', '035572435')")
 cursor.execute("INSERT INTO user (username, name, password, phone_number) VALUES ('kiwiahihi', 'Nguyen Tran Duc Quy', 'p746BhrZ5', '0123545533')")
 cursor.execute("INSERT INTO user (username, name, password, phone_number) VALUES ('admin', 'admin', '1', '1')")
+
 connection.commit()
 
 #Create a table for health info
@@ -22,12 +23,13 @@ cursor.execute("DROP TABLE IF EXISTS health")
 cursor.execute("CREATE TABLE IF NOT EXISTS health (id INTEGER PRIMARY KEY AUTOINCREMENT, username CHAR, gender CHAR, age INT, height FLOAT, weight FLOAT, bmi FLOAT, bmr FLOAT, bodyfat FLOAT, lbm FLOAT)")
 
 #Health table data dump
-cursor.execute("INSERT INTO health (username, gender, age, height, weight, bmi, bmr, bodyfat, lbm) VALUES ('tensingnightco', '1', 20, 164.5, 65.7, NULL, NULL, NULL, NULL)")
-cursor.execute("INSERT INTO health (username, gender, age, height, weight, bmi, bmr, bodyfat, lbm) VALUES ('killerxkiller', '1', 25, 165.7, 63.7, NULL, NULL, NULL, NULL)")
-cursor.execute("INSERT INTO health (username, gender, age, height, weight, bmi, bmr, bodyfat, lbm) VALUES ('spring317', '1', 18, 175.7, 73.4, NULL, NULL, NULL, NULL)")
-cursor.execute("INSERT INTO health (username, gender, age, height, weight, bmi, bmr, bodyfat, lbm) VALUES ('fuyohaiyaaa', '1',  22, 155.6, 84.4, NULL, NULL, NULL, NULL)")
-cursor.execute("INSERT INTO health (username, gender, age, height, weight, bmi, bmr, bodyfat, lbm) VALUES ('kiwiahihi', '1',  19, 168.5, 57.2, NULL, NULL, NULL, NULL)")
-cursor.execute("INSERT INTO health (username, gender, age, height, weight, bmi, bmr, bodyfat, lbm) VALUES ('admin', '1',  19, 168.5, 57.2, NULL, NULL, NULL, NULL)")
+cursor.execute("INSERT INTO health (username, gender, age, height, weight, bmi, bmr, bodyfat, lbm) VALUES ('tensingnightco', '1', 20, 1.65, 65, 24.13, NULL, NULL, NULL)")
+cursor.execute("INSERT INTO health (username, gender, age, height, weight, bmi, bmr, bodyfat, lbm) VALUES ('killerxkiller', '1', 25, 1.65, 63.7, 23.4, NULL, NULL, NULL)")
+cursor.execute("INSERT INTO health (username, gender, age, height, weight, bmi, bmr, bodyfat, lbm) VALUES ('spring317', '1', 18, 1.75, 73.4, 23.9, NULL, NULL, NULL)")
+cursor.execute("INSERT INTO health (username, gender, age, height, weight, bmi, bmr, bodyfat, lbm) VALUES ('fuyohaiyaaa', '1',  22, 1.55, 50, 20.8, NULL, NULL, NULL)")
+cursor.execute("INSERT INTO health (username, gender, age, height, weight, bmi, bmr, bodyfat, lbm) VALUES ('kiwiahihi', '1',  19, 1.68, 57.2, 20.2, NULL, NULL, NULL)")
+cursor.execute("INSERT INTO health (username, gender, age, height, weight, bmi, bmr, bodyfat, lbm) VALUES ('admin', '1',  1, 1, 1, 1, 1, 1, 1)")
+
 connection.commit()
 
 #Create a table for exercise info
